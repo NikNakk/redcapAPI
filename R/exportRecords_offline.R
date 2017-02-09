@@ -92,9 +92,9 @@ exportRecords_offline <-
     
     #* return field_names to a vector
     field_names <- unlist(field_names)
-    
+    print("Break0")
     x <- utils::read.csv(datafile, stringsAsFactors=FALSE, na.strings="")#[, field_names, drop=FALSE]
-    
+    print("Break1")
     lapply(field_names,
            function(i) 
            {
@@ -102,16 +102,16 @@ exportRecords_offline <-
                                    x[[i]],factors,dates, checkboxLabels, vname=i)
            }
     )
-    
+    print("Break2")
     if (labels) Hmisc::label(x[, field_names], self=FALSE) <- field_labels
-    
+    print("Break3")
     if ("redcap_data_access_group" %in% names(x)) field_names <- c(field_names[1], "redcap_data_access_group", field_names[-1])
     if ("redcap_event_name" %in% names(x)) field_names <- c(field_names[1], "redcap_event_name", field_names[-1])
-    
+    print("Break4")
     # get the survey field names.
     survey_fields <- names(x)[grepl("_survey_(identifier|timestamp)$", 
                                     names(x))]
-    
+    print("Break5")
     # convert survey timestamps to dates
     if (dates)
     {
@@ -124,17 +124,18 @@ exportRecords_offline <-
                  as.POSIXct(s)
                })
     }
-
+    print("Break6")
     # append survey field names to field_names
     field_names <- c(field_names, survey_fields)
-    
+    print("Break7")
     # append the completed form fields
     field_names <- c(field_names, paste0(unique(meta_data$form_name), "_complete"))
-    
+    print("Break8")
     # restore the field names to the original order
     field_names <- field_names[match(names(x), field_names)]
+    print("Break9")
     x <- x[, field_names, drop=FALSE]
-    
+    print("Break10")
     x
   }
 
